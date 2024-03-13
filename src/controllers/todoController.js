@@ -12,7 +12,17 @@ async function deleteTodo(idTodo){
   return todo
 }
 
+async function updateTodo(updatedTodo){
+  let filter = {_id: updatedTodo._id}
+  let update = updatedTodo
+  const todo = await Todo.findOneAndUpdate(filter,update)
+  console.log(todo)
+  return todo
+
+}
+
 module.exports = {
   getTodos,
-  deleteTodo
+  deleteTodo,
+  updateTodo
 }
