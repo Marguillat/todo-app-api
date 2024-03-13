@@ -1,4 +1,4 @@
-const { getTodos } = require('../controllers/todoController')
+const { getTodos, deleteTodo } = require('../controllers/todoController')
 const Todo = require('../models/Todo')
 const router = require('express').Router()
 
@@ -29,6 +29,10 @@ router.route('/')
       console.error(error)
       return res.status(500).send(error)
     }
+  })
+
+  .delete(async (req,res)=>{
+    deleteTodo(req.body._id)
   })
 
 module.exports = router

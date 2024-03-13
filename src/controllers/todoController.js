@@ -6,6 +6,13 @@ async function getTodos () {
   return todos
 }
 
+async function deleteTodo(idTodo){
+  const todo = await Todo.deleteOne({_id:idTodo})
+  console.log(todo)
+  return todo
+}
+
 module.exports = {
-  getTodos
+  getTodos,
+  deleteTodo
 }
