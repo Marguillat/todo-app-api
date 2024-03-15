@@ -1,4 +1,4 @@
-const Todo = require('../models/Todo')
+const Todo = require('../models/todo')
 
 async function getTodos (userId) {
   // select le document en foncton de mon model
