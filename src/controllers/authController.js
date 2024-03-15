@@ -47,6 +47,16 @@ const loginUser = async (credentials, callback) => {
   })
 }
 
+const registerUser = async (credentials) => {
+  // On cherche l'utilisateur dans la base de données
+  const user = new User({
+    email: credentials.email,
+    password: credentials.password
+  })
+
+  await user.save()
+}
+
 module.exports = {
-  loginUser
+  loginUser, registerUser
 }
