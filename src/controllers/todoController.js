@@ -1,8 +1,10 @@
 const Todo = require('../models/Todo')
 
-async function getTodos () {
+async function getTodos (userId) {
   // select le document en foncton de mon model
-  const todos = await Todo.find()
+  const todos = await Todo.find({
+    user: { $eq: userId }
+  })
   return todos
 }
 
@@ -22,15 +24,16 @@ async function updateTodo (updatedTodo) {
   return todo
 }
 
-async function createTodo (todo) {
+async function createTodo (todo, userId) {
   try {
     const _todo = new Todo({
       title: todo.title,
       description: todo.description,
       status: todo.status,
-      important: todo.important
+      important: todo.important,
+      user: userId
     })
-    _todo.save()
+    await _todo.save()
   } catch (error) {
     console.error(error)
   }
