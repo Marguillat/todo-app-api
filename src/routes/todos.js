@@ -1,5 +1,4 @@
-const { getTodos, deleteTodo, updateTodo } = require('../controllers/todoController')
-const Todo = require('../models/Todo')
+const { getTodos, deleteTodo, updateTodo, createTodo } = require('../controllers/todoController')
 const router = require('express').Router()
 
 router.route('/')
@@ -15,28 +14,35 @@ router.route('/')
   })
 
   .post(async (req, res) => {
-    console.log(req.body)
-
     try {
-      const _todo = new Todo({
-        title: req.body.title,
-        description: req.body.description,
-        status: req.body.status,
-        important: req.body.important
-      })
-      _todo.save()
+      await createTodo(req.body)
+      const todos = await getTodos()
+      return res.json(todos)
     } catch (error) {
       console.error(error)
       return res.status(500).send(error)
     }
   })
 
-  .delete(async (req,res)=>{
-    deleteTodo(req.body._id)
+  .delete(async (req, res) => {
+    try {
+      if (req.body._id) {
+        await deleteTodo(req.body._id)
+        const todos = await getTodos()
+        return res.json(todos)
+      } else {
+        throw new Error('_id is missing')
+      }
+    } catch (error) {
+      return res.status(500).send(error)
+    }
   })
 
-  .put(async ( req,res)=>{
-    updateTodo(req.body)
+  // je peux utiliser .update()
+  .put(async (req, res) => {
+    await updateTodo(req.body)
+    const todos = await getTodos()
+    return res.json(todos)
   })
 
 module.exports = router
