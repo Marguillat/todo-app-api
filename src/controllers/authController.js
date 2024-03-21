@@ -48,8 +48,10 @@ const loginUser = async (credentials, callback) => {
 }
 
 const registerUser = async (credentials) => {
-  // On cherche l'utilisateur dans la base de données
+  // On créé un user avec ce qu'il nous à envoyé
   const user = new User({
+    firstName: credentials.firstName,
+    lastName: credentials.lastName,
     email: credentials.email,
     password: credentials.password
   })
