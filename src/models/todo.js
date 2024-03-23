@@ -28,4 +28,3 @@ const todoSchema = new Schema({
 }, { timestamps: true })
 
 module.exports = mongoose.models.Todo || mongoose.model('Todo', todoSchema)
- 

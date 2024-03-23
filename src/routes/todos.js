@@ -1,4 +1,4 @@
-const { getTodos, deleteTodo, updateTodo, createTodo } = require('../controllers/todoController')
+const { getTodos, deleteTodo, updateTodo, createTodo, getTodosOfStatus, getTodosNotOfStatus } = require('../controllers/todoController')
 const withAuth = require('../middlewares/authMiddleware')
 const router = require('express').Router()
 
@@ -46,4 +46,27 @@ router.route('/')
     return res.json(todos)
   })
 
+router.route('/done')
+  .get(withAuth, async (req, res) => {
+    try {
+    // rend la requette du controller
+      const todos = await getTodosOfStatus(req.userId, 'DONE')
+      return res.json(todos)
+    } catch (error) {
+      console.error(error)
+      return res.status(500).send(error)
+    }
+  })
+
+router.route('/awaiting')
+  .get(withAuth, async (req, res) => {
+    try {
+    // rend la requette du controller
+      const todos = await getTodosNotOfStatus(req.userId, 'DONE') // nuance les todos qui ne sont pas du status
+      return res.json(todos)
+    } catch (error) {
+      console.error(error)
+      return res.status(500).send(error)
+    }
+  })
 module.exports = router

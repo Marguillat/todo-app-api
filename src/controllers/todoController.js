@@ -8,6 +8,21 @@ async function getTodos (userId) {
   return todos
 }
 
+async function getTodosOfStatus (userId, statusParam) {
+  const todos = await Todo.find({
+    user: { $eq: userId },
+    status: { $eq: statusParam }
+  })
+  return todos
+}
+
+async function getTodosNotOfStatus (userId, statusParam) {
+  const todos = await Todo.find({
+    user: { $eq: userId },
+    status: { $ne: statusParam }
+  })
+  return todos
+}
 async function deleteTodo (idTodo) {
   const todo = await Todo.deleteOne({ _id: idTodo })
   console.log(todo)
@@ -43,5 +58,7 @@ module.exports = {
   getTodos,
   deleteTodo,
   updateTodo,
-  createTodo
+  createTodo,
+  getTodosOfStatus,
+  getTodosNotOfStatus
 }
